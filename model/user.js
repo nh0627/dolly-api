@@ -5,7 +5,6 @@ export default class User {
         this.modify_date = user.modify_date, 
         this.email = user.email, 
         this.nickname = user.nickname, 
-        this.pass_word = user.pass_word || null,
         this.image = user.image || null        
     }
 
