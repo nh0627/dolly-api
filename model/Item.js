@@ -14,7 +14,7 @@ export default class Item {
         this.delivery_charge = item.delivery_charge,
         this.title = item.title,
         this.description = item.description,
-        this.master_img = {
+        this.master_image = {
             file_name: item.item_master_file_name,
             file_url: item.item_master_file_url
         },
