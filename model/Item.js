@@ -1,3 +1,5 @@
+import User from './user'
+
 export default class Item {
     constructor(item){
         this.pid = item.item_pid,
@@ -17,7 +19,11 @@ export default class Item {
             create_date: item.user_create_date,
             modify_date: item.user_modify_date,
             email: item.email,
-            nickname :item.nickname
+            nickname :item.nickname,
+            image: {
+                file_name: item.file_name,
+                file_url: item.file_url
+            }
         }
     }
 }
