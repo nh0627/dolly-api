@@ -1,5 +1,5 @@
 const itemQuery = {
-    getList(pageNum = 0) {
+    getItem(pageNum = 0) {
         return `SELECT
                     A.pid AS item_pid,
                     A.create_date AS item_create_date,

@@ -5,7 +5,7 @@ import itemQuery from './query/itemQuery'
 class ItemDTO extends Mysql {
 
     async get() {
-        const queryResult = await super.executeQuery(itemQuery.getList())
+        const queryResult = await super.executeQuery(itemQuery.getItems())
         let itemList = [];
 
         queryResult.map(e => {
