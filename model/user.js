@@ -6,7 +6,7 @@ export default class User {
         this.email = user.email, 
         this.nickname = user.nickname, 
         this.pass_word = user.pass_word || null,
-        this.img_rid = user.img_rid        
+        this.image = user.image || null        
     }
 
 }

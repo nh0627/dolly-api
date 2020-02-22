@@ -1,5 +1,5 @@
 const itemQuery = {
-    getItem(pageNum = 0) {
+    getItems(pageNum = 0) {
         return `SELECT
                     A.pid AS item_pid,
                     A.create_date AS item_create_date,
@@ -13,13 +13,19 @@ const itemQuery = {
                     A.delivery_charge,
                     A.title,
                     A.description,
-                    B.file_name AS item_master_file_name,
-                    B.file_url AS item_master_file_url,
+                    B.pid AS master_file_pid,
+                    B.create_date AS master_file_create_date,
+                    B.file_name AS master_file_name,
+                    B.file_url AS master_file_url,
+                    B.size AS master_file_size,
+                    B.master_flag AS master_file_master_flag,
                     C.pid AS user_pid,
                     C.create_date AS user_create_date,
                     C.modify_date AS user_modify_date,
-                    C.email,
-                    C.nickname,
+                    C.email AS user_email,
+                    C.nickname AS user_nickname,
+                    D.pid AS user_file_pid,
+                    D.create_date AS user_file_create_date,
                     D.file_name AS user_file_name,
                     D.file_url AS user_file_url
                 FROM
@@ -32,6 +38,9 @@ const itemQuery = {
                 LEFT OUTER JOIN dollymarket.image D ON
                     C.img_rid = D.pid
                 LIMIT ${pageNum}, 10`
+    },
+    getItemById(pid) {
+
     }
 }
 
