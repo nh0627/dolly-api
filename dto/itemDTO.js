@@ -18,20 +18,24 @@ class ItemDTO extends Mysql {
             A.delivery_charge,
             A.title,
             A.description,
-            B.pid AS user_pid,
-            B.create_date AS user_create_date,
-            B.modify_date AS user_modify_date,
-            B.email,
-            B.nickname,
-            C.file_name,
-            C.file_url
+            B.file_name AS item_master_file_name,
+            B.file_url AS item_master_file_url,
+            C.pid AS user_pid,
+            C.create_date AS user_create_date,
+            C.modify_date AS user_modify_date,
+            C.email,
+            C.nickname,
+            D.file_name AS user_file_name,
+            D.file_url AS user_file_url
         FROM
             dollymarket.item A
-        INNER JOIN dollymarket.user B ON
-            A.user_rid = B.pid
-        LEFT OUTER JOIN dollymarket.image C ON
-            C.pid = B.img_rid`)
-
+        LEFT OUTER JOIN dollymarket.image B ON
+            B.item_rid = A.pid
+        AND B.master_flag = 1
+        INNER JOIN dollymarket.user C ON
+            A.user_rid = C.pid
+        LEFT OUTER JOIN dollymarket.image D ON
+            C.img_rid = D.pid`)
         let itemList = [];
 
         queryResult.map(e => {

@@ -13,7 +13,11 @@ export default class Item {
         this.delivery_method = item.delivery_method,
         this.delivery_charge = item.delivery_charge,
         this.title = item.title,
-        this.description = item.description
+        this.description = item.description,
+        this.master_file = {
+            file_name: item.item_master_file_name,
+            file_url: item.item_master_file_url
+        }
         this.user = {
             pid: item.user_pid,
             create_date: item.user_create_date,
@@ -21,8 +25,8 @@ export default class Item {
             email: item.email,
             nickname :item.nickname,
             image: {
-                file_name: item.file_name,
-                file_url: item.file_url
+                file_name: item.user_file_name,
+                file_url: item.user_file_url
             }
         }
     }
