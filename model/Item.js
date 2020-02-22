@@ -17,7 +17,7 @@ export default class Item {
         this.master_file = {
             file_name: item.item_master_file_name,
             file_url: item.item_master_file_url
-        }
+        },
         this.user = {
             pid: item.user_pid,
             create_date: item.user_create_date,
