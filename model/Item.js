@@ -1,5 +1,5 @@
 export default class Item {
-    constructor(pid, create_date, modify_date, status, product_condition, quantity, price, paymenth_method, delivery_method, delivery_charge, title, description){
+    constructor(pid, create_date, modify_date, status, product_condition, quantity, price, paymenth_method, delivery_method, delivery_charge, title, description, user){
         this.pid = pid,
         this.create_date = create_date,
         this.modify_date = modify_date,
@@ -12,5 +12,7 @@ export default class Item {
         this.delivery_charge = delivery_charge,
         this.title = title,
         this.description = description
+        this.user = user
+
     }
 }
