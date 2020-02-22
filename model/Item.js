@@ -1,18 +1,23 @@
 export default class Item {
-    constructor(pid, create_date, modify_date, status, product_condition, quantity, price, paymenth_method, delivery_method, delivery_charge, title, description, user){
-        this.pid = pid,
-        this.create_date = create_date,
-        this.modify_date = modify_date,
-        this.status = status,
-        this.product_condition = product_condition,
-        this.quantity = quantity,
-        this.price = price,
-        this.paymenth_method = paymenth_method,
-        this.delivery_method = delivery_method,
-        this.delivery_charge = delivery_charge,
-        this.title = title,
-        this.description = description
-        this.user = user
-
+    constructor(item){
+        this.pid = item.item_pid,
+        this.create_date = item.item_create_date,
+        this.modify_date = item.item_modify_date,
+        this.status = item.status,
+        this.product_condition = item.product_condition,
+        this.quantity = item.quantity,
+        this.price = item.price,
+        this.paymenth_method = item.paymenth_method,
+        this.delivery_method = item.delivery_method,
+        this.delivery_charge = item.delivery_charge,
+        this.title = item.title,
+        this.description = item.description
+        this.user = {
+            pid: item.user_pid,
+            create_date: item.user_create_date,
+            modify_date: item.user_modify_date,
+            email: item.email,
+            nickname :item.nickname
+        }
     }
 }

@@ -1,15 +1,14 @@
 import Mysql from './mysql'
 import Item from '../model/item'
-import User from '../model/user'
 
 class ItemDTO extends Mysql {
 
     async get() {
         const queryResult = await super.executeQuery(`
             SELECT
-                A.pid,
-                A.create_date,
-                A.modify_date,
+                A.pid AS item_pid,
+                A.create_date AS item_create_date,
+                A.modify_date AS item_modify_date,
                 A.status,
                 A.product_condition,
                 A.quantity,
@@ -32,13 +31,7 @@ class ItemDTO extends Mysql {
         let itemList = [];
 
         queryResult.map(e => {
-            const { item_pid, item_create_date, item_modify_date, status, product_condition, quantity, price, paymenth_method, delivery_method, delivery_charge, title, description } = e
-            const { user_pid, user_create_date, user_modify_date, email, nickname } = e
-
-            const user = new User(user_pid, user_create_date, user_modify_date, email, nickname)
-            const item = new Item(item_pid, item_create_date, item_modify_date, status, product_condition, quantity, price, paymenth_method, delivery_method, delivery_charge, title, description, user)
-            
-            itemList.push(item)
+            itemList.push(new Item(e))
         })
 
         return itemList
