@@ -2,8 +2,7 @@ import Mysql from './mysql'
 import Item from '../model/item'
 import User from '../model/user'
 import Image from '../model/image'
-import itemQuery from './query/itemQuery'
-
+import { itemQuery } from './query'
 
 class ItemDTO extends Mysql {
 
@@ -11,47 +10,12 @@ class ItemDTO extends Mysql {
         const queryResult = await super.executeQuery(itemQuery.getItems())
         const itemList = [];
 
-        queryResult.map(e => {
+        queryResult.map(item => {
+            item = this.addMasterImageInfo(item)
 
-            // 마스터 이미지 리스트 추가
-            const masterImage = {
-                pid: e.master_file_pid, 
-                create_date: e.master_file_create_date,
-                file_name: e.master_file_name,
-                file_url: e.master_file_url,
-                file_size : e.master_file_size,
-                master_flag: e.master_file_master_flag
-            }
+            item = this.addUserInfo(item)
 
-            const imageArr = []
-
-            imageArr.push(new Image(masterImage))
-
-            e['images'] = imageArr
-
-            // 유저 정보 추가
-            const profileImages = []
-            const profileImage = {
-                pid: e.user_file_pid,
-                create_date: e.user_file_create_date,
-                file_name: e.user_file_name,
-                file_url: e.user_file_url
-            }
-
-            profileImages.push(profileImage)
-
-            const user = {
-                pid: e.user_pid,
-                create_date: e.user_create_date,
-                modify_date: e.user_modify_date,
-                email: e.user_email,
-                nickname: e.user_nickname,
-                image: profileImages
-            }
-
-            e['user'] = new User(user)
-
-            itemList.push(new Item(e))
+            itemList.push(new Item(item))
         })
 
         return itemList
@@ -59,7 +23,57 @@ class ItemDTO extends Mysql {
 
     async getById(itemId) {
         const queryResult = await super.executeQuery(itemQuery.getItemById(itemId))
-        return queryResult
+
+        // !! row가 1 이상이면 exception 처리
+        let item = queryResult[0]
+
+        item = this.addUserInfo(item)
+
+        item = new Item(item)
+
+        return item
+    }
+
+    addUserInfo(item) {
+        // 유저 정보 추가
+        const profileImage = {
+            pid: item.user_file_pid,
+            create_date: item.user_file_create_date,
+            file_name: item.user_file_name,
+            file_url: item.user_file_url
+        }
+
+        const user = {
+            pid: item.user_pid,
+            create_date: item.user_create_date,
+            modify_date: item.user_modify_date,
+            email: item.user_email,
+            nickname: item.user_nickname,
+            image: profileImage
+        }
+
+        item['user'] = new User(user)
+        return item
+    }
+
+    addMasterImageInfo(item) {
+        // 마스터 이미지 리스트 추가
+        const masterImage = {
+            pid: item.master_file_pid,
+            create_date: item.master_file_create_date,
+            file_name: item.master_file_name,
+            file_url: item.master_file_url,
+            file_size: item.master_file_size,
+            master_flag: item.master_file_master_flag
+        }
+
+        const imageArr = []
+
+        imageArr.push(new Image(masterImage))
+
+        item['images'] = imageArr
+
+        return item
     }
 }
 
