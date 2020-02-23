@@ -56,6 +56,11 @@ class ItemDTO extends Mysql {
 
         return itemList
     }
+
+    async getById(itemId) {
+        const queryResult = await super.executeQuery(itemQuery.getItemById(itemId))
+        return queryResult
+    }
 }
 
 export default new ItemDTO()

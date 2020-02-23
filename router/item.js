@@ -12,4 +12,11 @@ router.get('/', async (req, res) => {
     res.json(await itemService.get());
 })
 
+/* 
+Get item detail
+*/
+router.get(["/:itemId"], async (req, res) => {
+    res.json(await itemService.getById(req.params.itemId));
+});
+
 module.exports = router
