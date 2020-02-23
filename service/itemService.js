@@ -1,5 +1,5 @@
 import express from 'express'
-import itemDTO from '../dto/itemDTO'
+import { itemDTO } from '../dto'
 
 class ItemService {
 

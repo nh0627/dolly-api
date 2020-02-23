@@ -1,6 +1,6 @@
-import Mysql from './mysql'
+import { Mysql } from '../util'
 import { Item, User, Image, Tag } from '../model'
-import { itemQuery, imageQuery, tagQuery } from './query'
+import { itemQuery, imageQuery, tagQuery } from '../query'
 
 class ItemDTO extends Mysql {
 
@@ -8,13 +8,15 @@ class ItemDTO extends Mysql {
         const queryResult = await super.executeQuery(itemQuery.getItems())
         const itemList = [];
 
-        queryResult.map(item => {
+        await Promise.all(queryResult.map(async item => {
             item = this.getMasterImageInfo(item)
 
             item = this.getUserInfo(item)
 
+            item = await this.getTagsByItemId(item)  
+
             itemList.push(new Item(item))
-        })
+        }))
 
         return itemList
     }

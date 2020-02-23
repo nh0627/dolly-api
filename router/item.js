@@ -1,5 +1,5 @@
 import express from 'express'
-import itemService from '../service/itemService'
+import { itemService } from '../service'
 
 // const itemService = new ItemService()
 
