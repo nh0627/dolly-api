@@ -2,7 +2,7 @@ import Mysql from './mysql'
 import Item from '../model/item'
 import User from '../model/user'
 import Image from '../model/image'
-import { itemQuery } from './query'
+import { itemQuery, imageQuery } from './query'
 
 class ItemDTO extends Mysql {
 
@@ -27,7 +27,9 @@ class ItemDTO extends Mysql {
         // !! row가 1 이상이면 exception 처리
         let item = queryResult[0]
 
-        item = this.addUserInfo(item)
+        item = await this.addImageListByItemId(item)
+
+        item = this.addUserInfo(item)        
 
         item = new Item(item)
 
@@ -72,6 +74,20 @@ class ItemDTO extends Mysql {
         imageArr.push(new Image(masterImage))
 
         item['images'] = imageArr
+
+        return item
+    }
+
+    async addImageListByItemId(item) {
+        const imageQueryResult = await super.executeQuery(imageQuery.getImageByItemId(item.pid))
+
+        const imageList = []
+
+        imageQueryResult.map(result => {
+            imageList.push(new Image(result))
+        })
+
+        item['images'] = imageList
 
         return item
     }

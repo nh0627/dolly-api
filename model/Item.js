@@ -1,8 +1,8 @@
 export default class Item {
     constructor(item){
-        this.pid = item.item_pid,
-        this.create_date = item.item_create_date,
-        this.modify_date = item.item_modify_date,
+        this.pid = item.pid,
+        this.create_date = item.create_date,
+        this.modify_date = item.modify_date,
         this.status = item.status,
         this.product_condition = item.product_condition,
         this.quantity = item.quantity,

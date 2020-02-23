@@ -1,9 +1,9 @@
 const itemQuery = {
     getItems(pageNum = 0) {
         return `SELECT
-                    A.pid AS item_pid,
-                    A.create_date AS item_create_date,
-                    A.modify_date AS item_modify_date,
+                    A.pid,
+                    A.create_date,
+                    A.modify_date,
                     A.status,
                     A.product_condition,
                     A.quantity,
@@ -39,11 +39,11 @@ const itemQuery = {
                     C.img_rid = D.pid
                 LIMIT ${pageNum}, 10`
     },
-    getItemById(pid) {
+    getItemById(itemId) {
         return `SELECT
-                    A.pid AS item_pid,
-                    A.create_date AS item_create_date,
-                    A.modify_date AS item_modify_date,
+                    A.pid,
+                    A.create_date,
+                    A.modify_date,
                     A.status,
                     A.product_condition,
                     A.quantity,
@@ -68,7 +68,7 @@ const itemQuery = {
                     A.user_rid = C.pid
                 LEFT OUTER JOIN dollymarket.image D ON
                     C.img_rid = D.pid
-                WHERE A.pid = '${pid}'`
+                WHERE A.pid = '${itemId}'`
     }
 }
 
