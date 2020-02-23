@@ -17,7 +17,7 @@ Get item detail
 */
 router.get(["/:itemId"], async (req, res) => {
     const itemId = req.params.itemId.toUpperCase()
-    res.json(await itemService.getById(itemId));
+    res.json(await itemService.getById(itemId))
 });
 
 module.exports = router

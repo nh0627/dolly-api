@@ -1,8 +1,6 @@
 import Mysql from './mysql'
-import Item from '../model/item'
-import User from '../model/user'
-import Image from '../model/image'
-import { itemQuery, imageQuery } from './query'
+import { Item, User, Image, Tag } from '../model'
+import { itemQuery, imageQuery, tagQuery } from './query'
 
 class ItemDTO extends Mysql {
 
@@ -11,9 +9,9 @@ class ItemDTO extends Mysql {
         const itemList = [];
 
         queryResult.map(item => {
-            item = this.addMasterImageInfo(item)
+            item = this.getMasterImageInfo(item)
 
-            item = this.addUserInfo(item)
+            item = this.getUserInfo(item)
 
             itemList.push(new Item(item))
         })
@@ -27,16 +25,18 @@ class ItemDTO extends Mysql {
         // !! row가 1 이상이면 exception 처리
         let item = queryResult[0]
 
-        item = await this.addImageListByItemId(item)
+        item = await this.getImagesByItemId(item)
 
-        item = this.addUserInfo(item)        
+        item = await this.getTagsByItemId(item)   
+
+        item = this.getUserInfo(item)
 
         item = new Item(item)
 
         return item
     }
 
-    addUserInfo(item) {
+    getUserInfo(item) {
         // 유저 정보 추가
         const profileImage = {
             pid: item.user_file_pid,
@@ -58,7 +58,7 @@ class ItemDTO extends Mysql {
         return item
     }
 
-    addMasterImageInfo(item) {
+    getMasterImageInfo(item) {
         // 마스터 이미지 리스트 추가
         const masterImage = {
             pid: item.master_file_pid,
@@ -78,8 +78,8 @@ class ItemDTO extends Mysql {
         return item
     }
 
-    async addImageListByItemId(item) {
-        const imageQueryResult = await super.executeQuery(imageQuery.getImageByItemId(item.pid))
+    async getImagesByItemId(item) {
+        const imageQueryResult = await super.executeQuery(imageQuery.getImagesByItemId(item.pid))
 
         const imageList = []
 
@@ -88,6 +88,20 @@ class ItemDTO extends Mysql {
         })
 
         item['images'] = imageList
+
+        return item
+    }
+
+    async getTagsByItemId(item) {
+        const tagQueryResult = await super.executeQuery(tagQuery.getTagsByItemId(item.pid))
+
+        const tagList = []
+
+        tagQueryResult.map(result => {
+            tagList.push(new Tag(result))
+        })
+
+        item['tags'] = tagList
 
         return item
     }

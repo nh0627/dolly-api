@@ -13,6 +13,7 @@ export default class Item {
         this.title = item.title,
         this.description = item.description,
         this.images = item.images,
+        this.tags = item.tags || [],
         this.user = item.user
     }
 }
